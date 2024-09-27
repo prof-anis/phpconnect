@@ -22,7 +22,7 @@ host('phpconnect.tobexkee.xyz')
     ->setHostname('65.109.232.116')
     ->setRemoteUser('root')
     ->setLabels(['stage' => 'production'])
-    ->setDeployPath('/var/www/phpconnect');
+    ->setDeployPath('/var/www/phpconnect2');
 
 task('deploy:secrets', function (): void {
     file_put_contents(__DIR__.'/.env', getenv('DOT_ENV'));
