@@ -3,7 +3,7 @@
 namespace Deployer;
 
 require 'recipe/laravel.php';
-
+require 'contrib/rsync.php';
 // Config
 
 set('repository', 'git@github.com:prof-anis/phpconnect.git');
