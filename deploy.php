@@ -12,6 +12,10 @@ add('shared_files', []);
 add('shared_dirs', []);
 add('writable_dirs', []);
 
+set('rsync_src', function () {
+    return __DIR__;
+});
+
 // Hosts
 
 host('phpconnect.tobexkee.xyz')
@@ -40,7 +44,6 @@ task('deploy', [
     'artisan:config:cache',
     'artisan:optimize',
     'artisan:migrate',
-    'artisan:queue:restart',
     'deploy:symlink',
     'deploy:unlock',
     'deploy:cleanup',
