@@ -1,4 +1,5 @@
 <?php
+
 namespace Deployer;
 
 require 'recipe/laravel.php';
@@ -14,6 +15,7 @@ add('writable_dirs', []);
 // Hosts
 
 host('phpconnect.tobexkee.xyz')
+    ->setHostname('65.109.232.116')
     ->setRemoteUser('root')
     ->setLabels(['stage' => 'production'])
     ->setDeployPath('/var/www/phpconnect');
