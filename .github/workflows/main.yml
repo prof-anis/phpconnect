@@ -18,5 +18,7 @@ jobs:
         run: composer install
       - name: Check code quality
         run: vendor/bin/pint --test
+      - name: Setup env file
+        run: cp .env.example .env
       - name: Run unit tests
         run: php artisan test
