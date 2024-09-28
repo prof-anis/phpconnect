@@ -53,7 +53,6 @@ task('deploy', [
 
 after('deploy:failed', 'deploy:unlock');
 
-
 /**
  * Add cloudfare cache clear feature
  * Add slack notification for deployments
