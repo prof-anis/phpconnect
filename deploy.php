@@ -4,6 +4,8 @@ namespace Deployer;
 
 require 'recipe/laravel.php';
 require 'contrib/rsync.php';
+require 'contrib/slack.php';
+require 'contrib/crontab.php';
 // Config
 
 set('repository', 'git@github.com:prof-anis/phpconnect.git');
@@ -15,6 +17,11 @@ add('writable_dirs', []);
 set('rsync_src', function () {
     return __DIR__;
 });
+
+/**
+ * Setup slack
+ */
+set('slack_webhook', getenv('SLACK_WEBHOOK'));
 
 // Hosts
 
@@ -28,6 +35,8 @@ task('deploy:secrets', function (): void {
     file_put_contents(__DIR__.'/.env', getenv('DOT_ENV'));
     upload('.env', get('deploy_path').'/shared');
 });
+
+before('deploy', 'slack:notify');
 
 task('deploy', [
     'deploy:setup',
@@ -45,10 +54,16 @@ task('deploy', [
     'artisan:optimize',
     'artisan:migrate',
     'deploy:symlink',
+    'crontab:sync',
     'deploy:unlock',
     'deploy:cleanup',
 ]);
 
-// Hooks
+add('crontab:jobs', [
+    '* * * * * cd {{current_path}} && {{bin/php}} artisan schedule:run >> /dev/null 2>&1',
+]);
 
+// Hooks
+after('deploy:success', 'slack:notify:success');
+after('deploy:failed', 'slack:notify:failure');
 after('deploy:failed', 'deploy:unlock');
