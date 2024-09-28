@@ -17,8 +17,6 @@ class ShortenUrlController
 
     public function store(Request $request)
     {
-        dd('jkl');
-
         ShortUrl::create([
             'url' => $request->get('url'),
             'short_url' => Str::random(7),
